@@ -32,8 +32,14 @@ def LoginFeed(request):
     print(l)
     for i in l:
         if userid1 in i.values():
-            context = { }
+            x = models.Login.objects.filter(UserId=userid1)
+            fullname = x.values()[0].get('Fullname')
+            context = {'Username':fullname }
             return render(request, "Feed.html", context)
     context = {'Invalid': True }
     return render(request, "loginorsignup.html", context)
     
+
+def followuser(request):
+    context = { }
+    return render(request, "followuser.html", context)

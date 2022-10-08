@@ -6,4 +6,5 @@ urlpatterns = [
     #path('Rooms/', views.second_view),
     path('Feed', views.SignUp),
     path('login', views.LoginFeed),
+    path('follow', views.followuser),
 ]
