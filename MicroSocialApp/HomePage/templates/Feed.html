@@ -96,8 +96,8 @@ button:hover{
         <form method="POST" action="UploadPost" enctype="multipart/form-data" style="height: fit-content;float:left">
             {% csrf_token %}
             <input type="radio" name="userid" value="{{Userid}}" checked style="float:right">
-            <input type="file" name="fileid" style="width: fit-content;float:left">
-            <input type="text" name="caption" placeholder="Enter Caption" style="width: fit-content;float:left">
+            <input type="file" name="fileid" style="width: fit-content;float:left" accept="image/*,video/*" required>
+            <input type="text" name="caption" placeholder="Enter Caption" style="width: fit-content;float:left" value=" ">
             <button type="submit" style="width: fit-content;float:left">Post</button>
         </form>
 

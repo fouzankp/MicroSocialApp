@@ -1,6 +1,11 @@
+from statistics import mode
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from . import models
+from .forms import UploadFileForm
+from django.core.files.storage import FileSystemStorage
+import datetime
+import os
 # Create your views here.
 
 def loginpage(request):
@@ -38,7 +43,6 @@ def LoginFeed(request):
 def FeedPage(request, userid, followedid=''):
     k = models.Login.objects.filter(UserId=userid)[0]
     fullname = k.Fullname
-    print('here')
     context = {'Username':fullname, 'Userid':userid, 'FollowedId':followedid }
     return render(request, "Feed.html", context)
 
@@ -57,5 +61,23 @@ def followuser(request):
             p = models.Followers(UserId=u , FollowUserId=u+'-'+f)
             p.save()
             return FeedPage(request, u, f)
-            context = {'Followed':True, 'Userid':f }
     return FeedPage(request, u, 'False')
+
+
+def PostUpload(request):
+    u = request.POST['userid']
+    caption = request.POST['caption']
+    myfile = request.FILES['fileid']
+    s = datetime.datetime.now()
+    d = s.strftime('%y%m%d%H%M%S')
+    splittxt = os.path.splitext(myfile.name)
+    ext = splittxt[len(splittxt)-1]
+    d = d + ext
+    ftype = myfile.content_type[0].upper()
+    fs = FileSystemStorage()
+    filename = fs.save(d, myfile)
+    uploaded_file_url = fs.url(filename)
+    p = models.Posts(postid=d, UserId=u ,type=ftype,caption=caption)
+    p.save()
+
+    return FeedPage(request, u)

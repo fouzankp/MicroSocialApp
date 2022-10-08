@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 
 # Create your models here.
@@ -16,7 +17,7 @@ class Followers(models.Model):
 
 class Posts(models.Model):
     postid = models.CharField(primary_key=True,max_length=20)
-    filename = models.FileField
+    UserId = models.CharField(max_length=20,default='')
     TYPES = [('I', 'Image'),('V','Video')]
     type = models.CharField(max_length = 10,choices=TYPES)
     caption = models.CharField(max_length=50)
