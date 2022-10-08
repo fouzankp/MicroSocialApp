@@ -78,6 +78,7 @@ button:hover{
         <h4 style="color: white">Welcome {{Username}}</h4>
         <form method="POST" action="follow" enctype="multipart/form-data" style="height: fit-content;float:left">
             {% csrf_token %}
+            <input type="radio" name="userid" value="{{Userid}}" checked>
             <input type="text" name="follow" placeholder="Enter UserId" style="width: 150px; float:left">
             <button type="submit" style="width: fit-content;float:left">Follow</button>
         </form>
@@ -87,12 +88,7 @@ button:hover{
         <div>
             
             <h4 style="color: white">Welcome {{Username}}</h4>
-            <form method="POST" action="follow" enctype="multipart/form-data" style="background-color: white; height: fit-content;float:left">
-                {% csrf_token %}
-                <input type="text" name="follow" placeholder="Enter UserId" style="width: 100px; float:left">
-                <button type="submit" style="width: fit-content;float:left">Follow</button>
-                
-            </form>
+            
         </div>  	
 			
 	</div>

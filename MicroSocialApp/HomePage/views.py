@@ -1,5 +1,3 @@
-import imp
-from re import L
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from . import models
@@ -21,8 +19,8 @@ def SignUp(request):
             return render(request, "loginorsignup.html", context)
     p.save()
     print(fullname)
-    context = { }
-    return redirect(LoginFeed)
+    context = {'SignedUp':True }
+    return render(request, "loginorsignup.html", context)
 
 def LoginFeed(request):
     print(request.POST)
@@ -34,12 +32,24 @@ def LoginFeed(request):
         if userid1 in i.values():
             x = models.Login.objects.filter(UserId=userid1)
             fullname = x.values()[0].get('Fullname')
-            context = {'Username':fullname }
+            context = {'Username':fullname, 'Userid':userid1 }
             return render(request, "Feed.html", context)
     context = {'Invalid': True }
     return render(request, "loginorsignup.html", context)
     
 
 def followuser(request):
-    context = { }
+    f = request.POST['follow']
+    print(f)
+    print(request.POST)
+    u = request.POST['userid']
+    print(u)
+    l = models.Login.objects.values('UserId')
+    for i in l:
+        if f in i.values():
+            p = models.Followers(UserId=u , FollowUserId=u+'-'+f)
+            p.save()
+            context = {'Followed':True, 'Userid':f }
+        else:
+            context = {'Followed':False, 'Userid':f  }
     return render(request, "followuser.html", context)

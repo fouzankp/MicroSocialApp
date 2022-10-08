@@ -111,6 +111,12 @@ button:hover{
     </script>
     <meta http-equiv="refresh" content="0; URL=../" />
     {% endif %}
+	{% if SignedUp %}
+    <script>
+        alert('SignUp completed. Please login to continue')
+    </script>
+    <meta http-equiv="refresh" content="0; URL=../" />
+    {% endif %}
 	<div class="main">  	
 		<input type="checkbox" id="chk" aria-hidden="true">
 
