@@ -73,15 +73,34 @@ button:hover{
 
 </head>
 <body>
+    {% if FollowedId != 'False' and FollowedId != '' %}
+    <script>
+        alert('Successfully followed {{FollowedId}}')
+    </script>
+    {% endif %}
+    {% if FollowedId == 'False' %}
+    <script>
+        alert('{{Userid}} does not FollowedId!')
+    </script>
+    {% endif %}
     <div>
         <label>Social Media App</label>
         <h4 style="color: white">Welcome {{Username}}</h4>
         <form method="POST" action="follow" enctype="multipart/form-data" style="height: fit-content;float:left">
             {% csrf_token %}
-            <input type="radio" name="userid" value="{{Userid}}" checked>
+            <input type="radio" name="userid" value="{{Userid}}" checked style="float:right">
             <input type="text" name="follow" placeholder="Enter UserId" style="width: 150px; float:left">
             <button type="submit" style="width: fit-content;float:left">Follow</button>
         </form>
+
+        <form method="POST" action="UploadPost" enctype="multipart/form-data" style="height: fit-content;float:left">
+            {% csrf_token %}
+            <input type="radio" name="userid" value="{{Userid}}" checked style="float:right">
+            <input type="file" name="fileid" style="width: fit-content;float:left">
+            <input type="text" name="caption" placeholder="Enter Caption" style="width: fit-content;float:left">
+            <button type="submit" style="width: fit-content;float:left">Post</button>
+        </form>
+
     </div>
 	<div class="main">
         
