@@ -1,4 +1,3 @@
-from statistics import mode
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from . import models
@@ -6,6 +5,7 @@ from .forms import UploadFileForm
 from django.core.files.storage import FileSystemStorage
 import datetime
 import os
+from django.conf import settings
 # Create your views here.
 
 def loginpage(request):
@@ -43,7 +43,36 @@ def LoginFeed(request):
 def FeedPage(request, userid, followedid=''):
     k = models.Login.objects.filter(UserId=userid)[0]
     fullname = k.Fullname
-    context = {'Username':fullname, 'Userid':userid, 'FollowedId':followedid }
+
+    #followersposts
+    f = models.Followers.objects.filter(UserId=userid)
+    l=len(userid)
+    postlist = []
+    for x in f:
+        i = x.FollowUserId
+        i = i[l+1:]
+        p = models.Posts.objects.filter(UserId=i)
+        for y in p:
+            postset = {}
+            postset['PostId'] = y.postid
+            postset['UserId'] = i
+            postset['Caption'] = y.caption
+            like = models.PostLikes.objects.filter(postid=y.postid)
+            postset['likes'] = len(like)
+            postset['type'] = y.type
+            fs = FileSystemStorage()
+            img = fs.open(y.postid)
+            print(img)
+            print(fs.url(y.postid))
+            postset['img'] = img
+            postlist.append(postset)
+    #print(postlist)        
+    #print(dir(fs))
+    path = settings.MEDIA_ROOT
+    img_list = os.listdir(path + "/")
+    print(path)
+    print(img_list)
+    context = {'Username':fullname, 'Userid':userid, 'FollowedId':followedid, 'Posts':postlist }
     return render(request, "Feed.html", context)
 
 

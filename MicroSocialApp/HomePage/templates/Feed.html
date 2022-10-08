@@ -103,11 +103,20 @@ button:hover{
 
     </div>
 	<div class="main">
-        
         <div>
-            
             <h4 style="color: white">Welcome {{Username}}</h4>
-            
+            {% for i in Posts %}
+            <div>
+                <h4>{{i.UserId}}</h4>
+                <h6>{{i.Caption}}</h6>
+                <img src="{{i.img}}" alt="{{i.PostId}}" width="500" height="600">
+                <div style="width: fit-content;float:left">
+                    <h6> {{ i.likes }} Likes</h6>
+                    <button style="font-size: .2s">Like</button>
+                </div>
+                
+            </div>
+            {% endfor %}
         </div>  	
 			
 	</div>
