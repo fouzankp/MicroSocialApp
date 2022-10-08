@@ -64,7 +64,7 @@ def FeedPage(request, userid, followedid=''):
             img = fs.open(y.postid)
             print(img)
             print(fs.url(y.postid))
-            postset['img'] = img
+            postset['img'] = fs.url(y.postid)
             postlist.append(postset)
     #print(postlist)        
     #print(dir(fs))
