@@ -83,7 +83,7 @@ button:hover{
         alert('{{Userid}} does not FollowedId!')
     </script>
     {% endif %}
-    <div class="main" onscroll="fixed">
+    <div class="main">
         <label>Social Media App</label>
         <h4 style="color: white">Welcome {{Username}}</h4>
         <form method="POST" action="follow" enctype="multipart/form-data" style="height: fit-content;float:left">
@@ -108,10 +108,16 @@ button:hover{
             <div>
                 <form method="POST" action="LikePost" enctype="multipart/form-data" style="width: fit-content;height: fit-content;float:left">
                 {% csrf_token %}
-                    <label style="font-size: 20px;float:left;">{{i.UserId}}</label>
+                    <h4 style="font-size: 20px;float:top-left;color: white;">{{i.UserId}}</h4>
                     <figure>
                         <figcaption>{{i.Caption}}</figcaption>
+                        {% if i.type == 'I' %}
                         <img src="{{i.img}}" alt="{{i.PostId}}" width="300" height="200">
+                        {% else %}
+                        <video width="300" height="200" autoplay muted controls>
+                            <source src="{{i.img}}">
+                        </video>                    
+                        {% endif %}
                     </figure>
                     <label style="font-size: 20px;float:left;"> {{ i.likes }} Likes</label>
                     <button type="submit" style="font-size: 20px; height: fit-content; width: fit-content;float: left;">Like</button>
