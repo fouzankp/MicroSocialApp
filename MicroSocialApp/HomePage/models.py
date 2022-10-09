@@ -24,7 +24,11 @@ class Posts(models.Model):
 
 class PostLikes(models.Model):
     postid = models.CharField(max_length=20)
-    likeduserid = models.CharField(primary_key=True,max_length=40)
+    likeduserid = models.CharField(max_length=40)
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['postid','likeduserid'], name='unique_like_key')
+        ]
 
 
 

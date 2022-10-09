@@ -62,16 +62,12 @@ def FeedPage(request, userid, followedid=''):
             postset['type'] = y.type
             fs = FileSystemStorage()
             img = fs.open(y.postid)
-            print(img)
-            print(fs.url(y.postid))
+            #print(img)
+            #print(fs.url(y.postid))
             postset['img'] = fs.url(y.postid)
             postlist.append(postset)
     #print(postlist)        
     #print(dir(fs))
-    path = settings.MEDIA_ROOT
-    img_list = os.listdir(path + "/")
-    print(path)
-    print(img_list)
     context = {'Username':fullname, 'Userid':userid, 'FollowedId':followedid, 'Posts':postlist }
     return render(request, "Feed.html", context)
 
@@ -109,4 +105,18 @@ def PostUpload(request):
     p = models.Posts(postid=d, UserId=u ,type=ftype,caption=caption)
     p.save()
 
+    return FeedPage(request, u)
+
+def Like(request):
+    u = request.POST['userid']
+    p = request.POST['postid']
+    l = models.PostLikes(postid=p, likeduserid=u)
+    try:
+        l.save()
+    except:
+        #do nothing
+        print("already liked")
+        like = models.PostLikes.objects.filter(postid=p, likeduserid=u)
+        m = models.PostLikes(id=like[0].id)
+        m.delete()
     return FeedPage(request, u)

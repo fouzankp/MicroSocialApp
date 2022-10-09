@@ -8,5 +8,6 @@ urlpatterns = [
     path('login', views.LoginFeed),
     path('follow', views.followuser),
     path('UploadPost', views.PostUpload),
+    path('LikePost', views.Like),
     
 ]

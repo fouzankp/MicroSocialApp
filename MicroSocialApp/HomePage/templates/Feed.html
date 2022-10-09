@@ -83,7 +83,7 @@ button:hover{
         alert('{{Userid}} does not FollowedId!')
     </script>
     {% endif %}
-    <div>
+    <div class="main" onscroll="fixed">
         <label>Social Media App</label>
         <h4 style="color: white">Welcome {{Username}}</h4>
         <form method="POST" action="follow" enctype="multipart/form-data" style="height: fit-content;float:left">
@@ -103,21 +103,24 @@ button:hover{
 
     </div>
 	<div class="main">
-        <div>
-            <h4 style="color: white">Welcome {{Username}}</h4>
+            <h3 style="color: white">{{Username}}'s Post Feed</h3>
             {% for i in Posts %}
             <div>
-                <h4>{{i.UserId}}</h4>
-                <h6>{{i.Caption}}</h6>
-                <img src="{{i.img}}" alt="{{i.PostId}}" width="200" height="200">
-                <div style="width: fit-content;float:left">
-                    <h6> {{ i.likes }} Likes</h6>
-                    <button style="font-size: .2s">Like</button>
-                </div>
-                
+                <form method="POST" action="LikePost" enctype="multipart/form-data" style="width: fit-content;height: fit-content;float:left">
+                {% csrf_token %}
+                    <label style="font-size: 20px;float:left;">{{i.UserId}}</label>
+                    <figure>
+                        <figcaption>{{i.Caption}}</figcaption>
+                        <img src="{{i.img}}" alt="{{i.PostId}}" width="300" height="200">
+                    </figure>
+                    <label style="font-size: 20px;float:left;"> {{ i.likes }} Likes</label>
+                    <button type="submit" style="font-size: 20px; height: fit-content; width: fit-content;float: left;">Like</button>
+                    <input type="radio" name="userid" value="{{Userid}}" checked style="visibility: hidden;">
+                    <input type="radio" name="postid" value="{{i.PostId}}" checked style="visibility: hidden">
+                </form>
             </div>
             {% endfor %}
-        </div>  	
+        
 			
 	</div>
 </body>
